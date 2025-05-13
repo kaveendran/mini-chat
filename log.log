@@ -1,0 +1,6 @@
+[2025-05-13 23:31:10,499] - vector_db - INFO - Loading vector store from data/vector_store
+[2025-05-13 23:31:16,971] - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+[2025-05-13 23:31:21,742] - vector_db - INFO - Loading docstore from data/docstore/docstore.json and connecting it to vector store
+[2025-05-13 23:31:21,743] - vector_db - INFO - Loaded docstore from data/docstore/docstore.json with 22 documents
+[2025-05-13 23:31:21,743] - vector_db - INFO - Successfully loaded and validated vector store
+[2025-05-13 23:31:21,769] - vector_db - INFO - Documents retrieved from vector store: 5

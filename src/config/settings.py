@@ -62,4 +62,6 @@ settings = {
         "enabled": AGENT_ENABLED,
         "tools": AGENT_TOOLS
     }
-} 
+}
+
+BASE_PROMPT =""" HELLO """

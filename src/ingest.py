@@ -4,6 +4,10 @@ Data ingestion script for adding documents to the vector database.
 """
 import os
 import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import os
+import sys
 import argparse
 from dotenv import load_dotenv
 import art
@@ -28,7 +32,6 @@ logger = logging.getLogger("ingestion")
 
 
 # Add the project root to the path so we can import app modules(run the script from the root directory)
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 def load_json_file(file_path) -> dict:

@@ -1,5 +1,18 @@
-[2025-05-14 22:26:54,950] - faiss.loader - INFO - Loading faiss with AVX2 support.
-[2025-05-14 22:26:54,951] - faiss.loader - INFO - Could not load library with AVX2 support due to:
-ModuleNotFoundError("No module named 'faiss.swigfaiss_avx2'")
-[2025-05-14 22:26:54,951] - faiss.loader - INFO - Loading faiss.
-[2025-05-14 22:26:54,977] - faiss.loader - INFO - Successfully loaded faiss.
+[2025-05-17 22:54:33,167] - faiss.loader - INFO - Loading faiss with AVX2 support.
+[2025-05-17 22:54:33,193] - faiss.loader - INFO - Successfully loaded faiss with AVX2 support.
+[2025-05-17 22:54:33,203] - faiss - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes. This is only an error if you're trying to use GPU Faiss.
+[2025-05-17 22:54:33,680] - vector_db - INFO - Loading vector store from data/vector_store
+[2025-05-17 22:54:44,074] - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+[2025-05-17 22:54:48,278] - vector_db - INFO - Loading docstore from data/docstore/docstore.json and connecting it to vector store
+[2025-05-17 22:54:48,279] - vector_db - INFO - Loaded docstore from data/docstore/docstore.json with 32 documents
+[2025-05-17 22:54:48,279] - vector_db - INFO - Successfully loaded and validated vector store
+[2025-05-17 22:54:49,202] - vector_db - INFO - Loading vector store from data/vector_store
+[2025-05-17 22:54:49,205] - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+[2025-05-17 22:54:52,509] - vector_db - INFO - Loading docstore from data/docstore/docstore.json and connecting it to vector store
+[2025-05-17 22:54:52,510] - vector_db - INFO - Loaded docstore from data/docstore/docstore.json with 32 documents
+[2025-05-17 22:54:52,510] - vector_db - INFO - Successfully loaded and validated vector store
+[2025-05-17 22:54:52,547] - vector_db - INFO - Loading vector store from data/vector_store
+[2025-05-17 22:54:52,550] - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+[2025-05-17 22:54:55,938] - vector_db - INFO - Loading docstore from data/docstore/docstore.json and connecting it to vector store
+[2025-05-17 22:54:55,939] - vector_db - INFO - Loaded docstore from data/docstore/docstore.json with 32 documents
+[2025-05-17 22:54:55,939] - vector_db - INFO - Successfully loaded and validated vector store

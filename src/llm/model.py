@@ -3,7 +3,7 @@
 
 
 
-from langchain.memory import ConversationBufferMemory
+from langchain_core.chat_history import InMemoryChatMessageHistory
 from langchain_core.language_models import chat_models
 
 class UserMemory:
@@ -17,7 +17,7 @@ class UserMemory:
     # get user specific memory object
     def get_user_memory(self,user_id):
         if user_id not in self.global_memory:
-            self.global_memory[user_id] = ConversationBufferMemory()
+            self.global_memory[user_id] = InMemoryChatMessageHistory()
         return self.global_memory[user_id]
 
 

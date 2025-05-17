@@ -1,52 +1,66 @@
 from langchain_core.prompts import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate, MessagesPlaceholder
-from langchain.chains import ConversationChain
-from src.config.settings import BASE_PROMPT,VECTOR_DB_PATH,DOCSTORE_PATH
+from pyexpat.errors import messages
+
+from src.config.settings import BASE_PROMPT, VECTOR_DB_PATH, DOCSTORE_PATH
 from src.llm.model import UserMemory
 from src.vectordb.faiss_db import load_vector_store
 from langchain_groq import ChatGroq
 import dotenv
+from langchain_core.runnables.history import RunnableWithMessageHistory
+from langchain_core.output_parsers import StrOutputParser
 
 dotenv.load_dotenv()
 
-
 class ChatEngine:
-    """"
-    Chat Engine using conversational chain
-    and user specific memory object store and the  groq chat as a llm
     """
+    Chat Engine using conversational chain,
+    user-specific memory store, and Groq Chat as the LLM.
+    """
+    # global memory pool
+    memory = UserMemory()
+
     def __init__(self):
         self.llm = ChatGroq(
             temperature=0.4,
-            model_name='lama-3.1-8b-instant',
-            verbose= True
+            model_name='llama3-8b-8192',
+            verbose=True,
+            max_tokens=1000,
+
         )
         self.vector_store = load_vector_store(VECTOR_DB_PATH, DOCSTORE_PATH)
-        self.memory = UserMemory()
 
-        # Wrap BASE_PROMPT if it's a string into a valid chat prompt template
-        self.prompt_template = ChatPromptTemplate.from_messages([
-            SystemMessagePromptTemplate.from_template(BASE_PROMPT),
+
+        # Prompt template
+        self.prompt = ChatPromptTemplate.from_messages([
+            ("system", BASE_PROMPT),
             MessagesPlaceholder(variable_name="history"),
-            HumanMessagePromptTemplate.from_template("Context:\n{context}\n\nUser: {input}")
+            ("human", "Context:\n{context}\n\nUser: {input}")
         ])
 
-    async def process_message(self, message: str, user_id: str):
-        user_specific_memory = self.memory.get_user_memory(user_id)
+        # Build core chain
+        self.chain = self.prompt | self.llm | StrOutputParser()
 
-        # Async document retrieval
-        retriever = self.vector_store.as_retriever()
-        rel_docs = await retriever.ainvoke(message)
-        context = self._format_context(rel_docs)
-
-        # conversational chain
-        chain = ConversationChain(
-            prompt=self.prompt_template,
-            llm=self.llm,
-            memory=user_specific_memory,
-            verbose=True
+        # Wrap with memory-aware history handler
+        self.chat_with_history = RunnableWithMessageHistory(
+            self.chain,
+            get_session_history=lambda user_id: self.memory.get_user_memory(user_id),
+            input_messages_key="input",
+            history_messages_key="history",
+            verbose=True,
         )
 
-        return await chain.ainvoke({"input": message, "context": context})
+    async def process_message(self, message: str, user_id: str):
+        # Async document retrieval
+        retriever = self.vector_store.as_retriever(k=3)
+        rel_docs = await retriever.ainvoke(message)
+        print(len(rel_docs))
+        context = self._format_context(rel_docs)
+
+        # Run chain with memory
+        return await self.chat_with_history.ainvoke(
+            {"input": message, "context": context},
+            config={"configurable": {"session_id": user_id}}
+        )
 
     def _format_context(self, documents: list) -> str:
         if not documents:
@@ -54,6 +68,14 @@ class ChatEngine:
         return "\n".join([f"{i+1}. {doc.page_content}" for i, doc in enumerate(documents)])
 
 
+    async def basic_completion(self,text_input:str):
+        response = await self.llm.ainvoke(text_input)
+        return response.content
+
+
+# Optional: test the LLM directly
 if __name__ == "__main__":
-    chat = ChatEngine()
-    chat.process_message("hello","123243")
+    ce = ChatEngine()
+    op = ce.basic_completion("hi")
+
+    print(op)

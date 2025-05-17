@@ -1,5 +1,5 @@
-[2025-05-14 22:27:00,780] - faiss.loader - INFO - Loading faiss with AVX2 support.
-[2025-05-14 22:27:00,781] - faiss.loader - INFO - Could not load library with AVX2 support due to:
-ModuleNotFoundError("No module named 'faiss.swigfaiss_avx2'")
-[2025-05-14 22:27:00,781] - faiss.loader - INFO - Loading faiss.
-[2025-05-14 22:27:00,811] - faiss.loader - INFO - Successfully loaded faiss.
+[2025-05-17 19:01:53,894] - faiss.loader - INFO - Loading faiss with AVX2 support.
+[2025-05-17 19:01:53,918] - faiss.loader - INFO - Successfully loaded faiss with AVX2 support.
+[2025-05-17 19:01:53,927] - faiss - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes. This is only an error if you're trying to use GPU Faiss.
+[2025-05-17 19:01:54,315] - vector_db - INFO - Loading vector store from data/vector_store
+[2025-05-17 19:01:54,316] - vector_db - ERROR - Error loading vector store: Vector store path data/vector_store does not exist

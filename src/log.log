@@ -1,0 +1,10 @@
+[2025-05-15 00:00:45,726] - faiss.loader - INFO - Loading faiss with AVX2 support.
+[2025-05-15 00:00:45,751] - faiss.loader - INFO - Successfully loaded faiss with AVX2 support.
+[2025-05-15 00:00:45,759] - faiss - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes. This is only an error if you're trying to use GPU Faiss.
+[2025-05-15 00:00:45,782] - ingestion - INFO - Starting ingestion with arguments: Namespace(file='C:\\Users\\sabesonk\\Documents\\MEMORY\\PROJECTS\\mini-chat\\test.json', directory=None, vector_store='faiss')
+[2025-05-15 00:00:45,786] - vector_db - INFO - Docstore saved to data/docstore/docstore.json
+[2025-05-15 00:00:53,834] - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+[2025-05-15 00:00:59,189] - vector_db - INFO - Vector store created with index: <faiss.swigfaiss_avx2.IndexFlatL2; proxy of <Swig Object of type 'faiss::IndexFlatL2 *' at 0x000001403643A4F0> >
+[2025-05-15 00:01:00,793] - vector_db - INFO - Documents added to vector store: 32
+[2025-05-15 00:01:00,799] - vector_db - INFO - Vector store saved to data/vector_store/faiss_index.faiss
+[2025-05-15 00:01:00,800] - ingestion - INFO - Successfully ingested 32 documents

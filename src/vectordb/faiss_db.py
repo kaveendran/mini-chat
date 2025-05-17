@@ -2,12 +2,12 @@
 import os
 from typing import Dict, List, Optional, Any
 import faiss
-from langchain.vectorstores.faiss import FAISS
+from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document
-from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from src.config.settings import EMBEDDING_MODEL,EMBEDDING_DIMENSION
 import logging
-from langchain.docstore import InMemoryDocstore
+from langchain_community.docstore.in_memory import InMemoryDocstore
 import json
 logger = logging.getLogger('vector_db')
 
@@ -104,7 +104,8 @@ def load_vector_store(path: str, docstore_path: str = None):
         try:
             vector_store = FAISS.load_local(
                 folder_path=path,
-                embeddings=embeddings
+                embeddings=embeddings,
+                allow_dangerous_deserialization=True
             )
         except Exception as load_error:
             logger.error(f"Failed to load vector store: {load_error}")

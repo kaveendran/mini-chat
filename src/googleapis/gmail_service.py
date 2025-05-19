@@ -3,8 +3,9 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from typing import Dict
 from src.config.settings import *
+from langchain_community.tools import DuckDuckGoSearchRun, tool,StructuredTool
 
-
+@tool
 def smtp_gmail(data: Dict) -> str:
     """
   Send a support query email to the dev team and optionally a confirmation to the user.
@@ -14,7 +15,6 @@ def smtp_gmail(data: Dict) -> str:
       "user_message": "...",
       "user_name": "...",
       "user_email": "...",
-      "send_user_confirmation": true/false (optional)
   }
   """
 
@@ -22,7 +22,7 @@ def smtp_gmail(data: Dict) -> str:
         user_message = data.get("user_message", "")
         user_name = data.get("user_name", "Unknown")
         user_email = data.get("user_email", "")
-        send_user_confirmation = data.get("send_user_confirmation", True)
+        send_user_confirmation = True
 
         # --- Email to Dev Team ---
         msg_to_dev = MIMEMultipart()

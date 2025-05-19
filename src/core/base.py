@@ -16,8 +16,6 @@ class ChatEngine:
     Chat Engine using conversational chain,
     user-specific memory store, and Groq Chat as the LLM.
     """
-    # global memory pool
-    memory = UserMemory()
 
     def __init__(self,model_name='llama-3.1-8b-instant'):
         self.llm = ChatGroq(
@@ -33,33 +31,23 @@ class ChatEngine:
         # Prompt template
         self.prompt = ChatPromptTemplate.from_messages([
             ("system", BASE_PROMPT),
-            MessagesPlaceholder(variable_name="history"),
             ("human", "Context:\n{context}\n\nUser: {input}")
         ])
 
         # Build core chain
         self.chain = self.prompt | self.llm | StrOutputParser()
 
-        # Wrap with memory-aware history handler
-        self.chat_with_history = RunnableWithMessageHistory(
-            self.chain,
-            get_session_history=lambda user_id: self.memory.get_user_memory(user_id),
-            input_messages_key="input",
-            history_messages_key="history",
-            verbose=True,
-        )
 
-    async def process_message(self, message: str, user_id: str):
+    def process_message(self, message: str):
         # Async document retrieval
         retriever = self.vector_store.as_retriever(k=3)
-        rel_docs = await retriever.ainvoke(message)
+        rel_docs = retriever.invoke(message)
         print(len(rel_docs))
         context = self._format_context(rel_docs)
 
         # Run chain with memory
-        return await self.chat_with_history.ainvoke(
-            {"input": message, "context": context},
-            config={"configurable": {"session_id": user_id}}
+        return  self.chain.invoke(
+            {"input": message, "context": context}
         )
 
     def _format_context(self, documents: list) -> str:

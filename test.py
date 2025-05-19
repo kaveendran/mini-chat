@@ -10,7 +10,12 @@ from src.core.chat import ChatEngine
 #     data = None
 
 import uvicorn
-from src.agents.simple_agent import smtp_mail_agent
+from src.agents.chat_agent import chat_agent
+import asyncio
 if __name__ == "__main__":
-    # uvicorn.run("src.api.server:app", host="127.0.0.1", port=8888, reload=True)
-    smtp_mail_agent("need to book meeting")
+
+    while True:
+        id = "hello"
+        inpu =  input("QUERY :")
+        out = chat_agent(id,inpu)
+        print(out)

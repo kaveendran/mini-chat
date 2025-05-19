@@ -7,6 +7,7 @@ import uvicorn
 from src.core.chat import ChatEngine
 from src.agents.intent_classifiers import classify_intent
 from src.agents.simple_agent import mail_agent
+from src.agents.email_agent import email_agent
 # Load environment variables
 load_dotenv()
 
@@ -40,24 +41,31 @@ async def health_check():
 @app.post("/chat", response_model=ChatResponse)
 async def chat(request: ChatRequest):
     try:
-
         ## memory that can be used by the indent_classifier
         memory = chat_engine.memory.get_user_memory(request.user_id)
 
-        # # classify the indent
-        indent = await classify_intent(memory,request.message)
-        print(indent)
+        # Classify the intent
+        intent = await classify_intent(memory, request.message)
+        print(f"Classified intent: {intent}")
 
-        if indent is 'agent':
-            agent_out = mail_agent(
+        # Handle support query and dev team requests
+        if intent == 'agent':
+            # Determine if this is a dev team request or a support query
+            # Check if this is a dev request (feature request, technical issue, etc.)
+            is_dev_request = "feature" in request.message.lower() or "improvement" in request.message.lower() or "bug" in request.message.lower()
+
+            # Use the appropriate email agent based on request type
+            request_type = "support"
+            agent_response = await email_agent(
                 user_id=request.user_id,
-                user_input=request.message
+                user_input=request.message,
+                request_type=request_type
             )
-            request.message = request.message + "Agent output :" + agent_out
 
-
-
-        # This memory also can be used by the agent also ??
+            if isinstance(agent_response, dict) and "output" in agent_response:
+                return ChatResponse(response=agent_response["output"], actions_taken=[], user_id=request.user_id)
+            else:
+                return ChatResponse(response=str(agent_response), actions_taken=[], user_id=request.user_id)
 
         # Use standard chat engine if no agent or agent didn't handle
         response = await chat_engine.process_message(
@@ -66,7 +74,7 @@ async def chat(request: ChatRequest):
         )
         print(response)
 
-        return ChatResponse(response=response, actions_taken=[],user_id=request.user_id)
+        return ChatResponse(response=response, actions_taken=[], user_id=request.user_id)
     except Exception as e:
         print(e)
         raise HTTPException(status_code=500, detail=str(e))

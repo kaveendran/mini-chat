@@ -1,5 +1,0 @@
-[2025-05-17 19:19:21,252] - faiss.loader - INFO - Loading faiss with AVX2 support.
-[2025-05-17 19:19:21,383] - faiss.loader - INFO - Successfully loaded faiss with AVX2 support.
-[2025-05-17 19:19:21,424] - faiss - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes. This is only an error if you're trying to use GPU Faiss.
-[2025-05-17 19:19:26,865] - vector_db - INFO - Loading vector store from data/vector_store
-[2025-05-17 19:19:26,865] - vector_db - ERROR - Error loading vector store: Vector store path data/vector_store does not exist

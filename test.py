@@ -19,3 +19,11 @@ if __name__ == "__main__":
         inpu =  input("QUERY :")
         out = chat_agent(id,inpu)
         print(out)
+    # from langchain_core.prompts import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate
+    # Create a LANGSMITH_API_KEY in Settings > API Keys
+    # from langsmith import Client
+    #
+    # client = Client(api_key='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')
+    # prompt = client.pull_prompt("hwchase17/structured-chat-agent", include_model=False)
+
+    print(len(prompt.to_dict()))

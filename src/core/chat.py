@@ -1,7 +1,7 @@
 from langchain_core.prompts import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate, MessagesPlaceholder
 from pyexpat.errors import messages
 
-from src.config.settings import BASE_PROMPT, VECTOR_DB_PATH, DOCSTORE_PATH
+from src.config.settings import RAG_PROMPT, VECTOR_DB_PATH, DOCSTORE_PATH
 from src.llm.model import UserMemory
 from src.vectordb.faiss_db import load_vector_store
 from langchain_groq import ChatGroq
@@ -32,7 +32,7 @@ class ChatEngine:
 
         # Prompt template
         self.prompt = ChatPromptTemplate.from_messages([
-            ("system", BASE_PROMPT),
+            ("system", RAG_PROMPT),
             MessagesPlaceholder(variable_name="history"),
             ("human", "Context:\n{context}\n\nUser: {input}")
         ])
